@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: arep-web
+    ports:
+      - "6000:5000"
+
+  db:
+    image: docker.io/library/mongo:3.6.1
+    container_name: db
+    ports:
+      - "27017:27017"
+    command: mongod
+    volumes:
+      - temp_mongodb:/data/db
+      - temp_mongodb_config:/data/configdb
+
+volumes:
+  temp_mongodb:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+  temp_mongodb_config:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
